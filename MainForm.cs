@@ -55,12 +55,14 @@ namespace CutinTableEditor
         public string fileMagic;
         public byte[] headerArray = new byte[38];
 
-        PictureBox eyePicture = new PictureBox() { Visible = false, SizeMode = PictureBoxSizeMode.Normal };
+        PictureBox eyePicture = new PictureBox() { SizeMode = PictureBoxSizeMode.Normal, BackColor = Color.Transparent  };
         
         public MainForm()
         {
             InitializeComponent();
+            pnl_PictureBoxContainer.Controls.Add(eyePicture);
             eyePicture.Parent = pictureBox_BaseImage;
+            eyePicture.BringToFront();
 
             //Disable buttons and set dark mode by default
             VisualMode(darkMode);
@@ -76,10 +78,10 @@ namespace CutinTableEditor
             nameTextBox.Enabled = false;
             copyCoordsSM.Enabled = false;
             pasteCoordsSM.Enabled = false;
-
+            scaleMenu.SelectedIndex = 0;
 #if DEBUG
             modeComboBox.SelectedIndex = 0; //P5RPC
-            scaleMenu.SelectedIndex = 3;
+            scaleMenu.SelectedIndex = 2;
             tablePath = @"D:\CPK\BASE.CPK_unpacked\CUTIN\TABLE\0_MAIN_0\CUTINMAIN_0_02_07.DAT";
             OpenTableDat();
 
@@ -94,7 +96,7 @@ namespace CutinTableEditor
         {
             int selectedScale = 100;
 
-            if (scaleMenu.SelectedText != "")
+            if (scaleMenu.SelectedItem.ToString() != "")
                 selectedScale = Convert.ToInt32(scaleMenu.SelectedItem.ToString());
 
             return new Bitmap(bmp, new Size((int)Math.Ceiling((double)bmp.Width * ((double)selectedScale / (double)100)), (int)Math.Ceiling(((double)bmp.Height * ((double)selectedScale / (double)100)))));
@@ -109,10 +111,10 @@ namespace CutinTableEditor
         {
             int selectedScale = 100;
 
-            if (scaleMenu.SelectedText != "")
+            if (scaleMenu.SelectedItem.ToString() != "")
                 selectedScale = Convert.ToInt32(scaleMenu.SelectedItem.ToString());
 
-            return new Point((int)Math.Ceiling(x * ((double)selectedScale / (double)50)), (int)Math.Ceiling(y * ((double)selectedScale / (double)50)));
+            return new Point((int)Math.Ceiling(x * ((double)selectedScale / (double)100)), (int)Math.Ceiling(y * ((double)selectedScale / (double)100)));
         }
 
         public class CutinData  //Entry structure for cutin data
@@ -153,6 +155,7 @@ namespace CutinTableEditor
 
             // Unpacking Cutins with Cutin Tool
             P5CutinTool.Program.Main(new string[] { "unpack", InputFolder.FileName, OutputFolder.FileName });
+            MessageBox.Show("Done unpacking cutins!");
         }
 
         private void RepackButton_Click(object sender, EventArgs e)
@@ -183,6 +186,7 @@ namespace CutinTableEditor
 
             // Repacking Cutins with Cutin Tool
             P5CutinTool.Program.Main(new string[] { "pack", InputFolder.FileName, OutputFolder.FileName });
+            MessageBox.Show("Done repacking cutins!");
         }
 
         private void OpenFrames_Click(object sender, EventArgs e)
@@ -335,6 +339,7 @@ namespace CutinTableEditor
             numPosX.Enabled = false;
             numPosY.Enabled = false;
             this.eyePicture.Image = null;
+            eyePicture.Size = new Size(1,1);
             entryCombo.SelectedIndex = cutinDataList[entryListBox.SelectedIndex].type;
             nameTextBox.Text = cutinDataList[entryListBox.SelectedIndex].name;
 
@@ -376,6 +381,7 @@ namespace CutinTableEditor
                                 ePosY = cutinDataList[entryListBox.SelectedIndex].posY;
                                 updateEyeFrame();
                                 this.eyePicture.Image = ScaleBitmap(eyeFrames[entryListBox.SelectedIndex - faceCount]);
+                                eyePicture.Size = eyePicture.Image.Size;
                             }
                             if (isP54K == true)
                             {
@@ -383,6 +389,7 @@ namespace CutinTableEditor
                                 ePosY = cutinDataList[entryListBox.SelectedIndex].posY;
                                 updateEyeFrame();
                                 this.eyePicture.Image = ScaleBitmap(eyeFrames[entryListBox.SelectedIndex - faceCount]);
+                                eyePicture.Size = eyePicture.Image.Size;
                             }
                             if (isP5R == true)  //For P5R PS4/Switch, coords * 0.6667
                             {
@@ -390,6 +397,7 @@ namespace CutinTableEditor
                                 ePosY = Convert.ToInt32(cutinDataList[entryListBox.SelectedIndex].posY * 0.6667);
                                 updateEyeFrame();
                                 this.eyePicture.Image = ScaleBitmap(eyeFrames[entryListBox.SelectedIndex - faceCount]);
+                                eyePicture.Size = eyePicture.Image.Size;
                             }
                             if (isP5RPC == true)    //For P5RPC, coords / 3
                             {
@@ -397,6 +405,7 @@ namespace CutinTableEditor
                                 ePosY = Convert.ToInt32(cutinDataList[entryListBox.SelectedIndex].posY * 0.6667);
                                 updateEyeFrame();
                                 this.eyePicture.Image = ScaleBitmap(eyeFrames[entryListBox.SelectedIndex - faceCount]);
+                                eyePicture.Size = eyePicture.Image.Size;
                             }
                             break;
                         case "001":
@@ -407,6 +416,7 @@ namespace CutinTableEditor
                                 ePosY = cutinDataList[entryListBox.SelectedIndex].posY;
                                 updateEyeFrame();
                                 this.eyePicture.Image = ScaleBitmap(eyeFrames[entryListBox.SelectedIndex - faceCount]);
+                                eyePicture.Size = eyePicture.Image.Size;
                             }
                             if (isP54K == true)
                             {
@@ -414,6 +424,7 @@ namespace CutinTableEditor
                                 ePosY = cutinDataList[entryListBox.SelectedIndex].posY;
                                 updateEyeFrame();
                                 this.eyePicture.Image = ScaleBitmap(eyeFrames[entryListBox.SelectedIndex - faceCount]);
+                                eyePicture.Size = eyePicture.Image.Size;
                             }
                             if (isP5R == true)
                             {
@@ -421,6 +432,7 @@ namespace CutinTableEditor
                                 ePosY = Convert.ToInt32(cutinDataList[entryListBox.SelectedIndex].posY * 0.6667);
                                 updateEyeFrame();
                                 this.eyePicture.Image = ScaleBitmap(eyeFrames[entryListBox.SelectedIndex - faceCount]);
+                                eyePicture.Size = eyePicture.Image.Size;
                             }
                             if (isP5RPC == true)
                             {
@@ -428,6 +440,7 @@ namespace CutinTableEditor
                                 ePosY = Convert.ToInt32(cutinDataList[entryListBox.SelectedIndex].posY * 0.6667);
                                 updateEyeFrame();
                                 this.eyePicture.Image = ScaleBitmap(eyeFrames[entryListBox.SelectedIndex - faceCount]);
+                                eyePicture.Size = eyePicture.Image.Size;
                             }
                             break;
                         default:

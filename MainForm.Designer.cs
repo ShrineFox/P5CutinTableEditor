@@ -181,7 +181,7 @@ namespace CutinTableEditor
             // scaleMenu
             // 
             scaleMenu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            scaleMenu.Items.AddRange(new object[] { "100", "75", "50", "25" });
+            scaleMenu.Items.AddRange(new object[] { "100", "75", "50", "25", "15", "10", "5", "2" });
             scaleMenu.Name = "scaleMenu";
             scaleMenu.Size = new System.Drawing.Size(121, 28);
             // 
@@ -399,6 +399,7 @@ namespace CutinTableEditor
             pnl_PictureBoxContainer.AutoScroll = true;
             pnl_PictureBoxContainer.AutoSize = true;
             pnl_PictureBoxContainer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            pnl_PictureBoxContainer.BackColor = System.Drawing.Color.SlateGray;
             pnl_PictureBoxContainer.Controls.Add(pictureBox_BaseImage);
             pnl_PictureBoxContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             pnl_PictureBoxContainer.Location = new System.Drawing.Point(198, 3);

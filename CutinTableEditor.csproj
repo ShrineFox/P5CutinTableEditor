@@ -4,7 +4,11 @@
     <OutputType>WinExe</OutputType>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <ApplicationIcon>cutin_tool.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="cutin_tool.ico" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Amicitia.IO" Version="1.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
